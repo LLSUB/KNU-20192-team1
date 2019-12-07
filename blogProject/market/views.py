@@ -25,6 +25,10 @@ def detail(request, market_id):
 def new(request):
     return render(request, 'new.html')
 
+def order(request, market_id):
+    market_detail=get_object_or_404(Market, pk=market_id)
+    return render(request, 'order.html',{'market':market_detail})
+
 def create(request):
     market=Market()
     market.name=request.GET['name']
@@ -79,3 +83,4 @@ def market_search(request):
         'market_search': market,
         'm':m,
     })
+

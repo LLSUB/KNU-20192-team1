@@ -9,6 +9,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('',views.market, name="market"),
     path('<int:market_id>', views.detail, name="detail"),
+    path('<int:market_id>/order', views.order, name="order"),
     path('new', views.new, name="new"),
     path('market_serach', views.market_search, name="market_search"),
     path('create', views.create, name="create"),

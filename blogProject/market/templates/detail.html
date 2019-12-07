@@ -48,6 +48,7 @@
                     {% endif %}-->
                 </div>
                 <div class="comment comment1">
+                        <input type='checkbox' name='select' value="0" checked="checked"/>
                         <td class="tableb1">메뉴 이름 :{{menu.name}}</td>
                         {% if menu.photo %}
                         사진 : <img src="{{menu.photo.url}}" width="200" height="150">
@@ -55,6 +56,7 @@
                         <td class="tableb1">가격 : {{menu.price}}</td>
                         <td class="tableb1">남은 수량 : {{menu.left}}</td>
                         <td class="tableb1">설명 : {{menu.description}}</td>
+                        <input type='number' name="amount" value="0"/>
                 </div>
             {% endfor %}
 
@@ -71,7 +73,7 @@
             </form> -->
 
             <!--글 목록-->
-            <a href="">주문</a>
-            <a href="{% url 'market' %}">글 목록</a>
+            <a href="{% url 'order' market.id %}">주문</a>
+            <a href="{% url 'market'%}">글 목록</a>
     </body>
 </html>
