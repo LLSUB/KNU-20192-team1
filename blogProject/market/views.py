@@ -66,3 +66,16 @@ def delete(request, market_id):
     market.delete()
 
     return redirect('market')
+
+def market_search(request):
+    market=Market.objects.all()
+
+    m=request.GET.get('context','init')
+
+    if m:
+        market=market.filter(name__icontains=m)
+    
+    return render(request, 'market_search.html', {
+        'market_search': market,
+        'm':m,
+    })
