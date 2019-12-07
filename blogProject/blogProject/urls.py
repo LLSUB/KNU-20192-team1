@@ -20,10 +20,11 @@ from django.conf import settings
 import blog.views
 import account.views
 import market.views
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', blog.views.home, name='home'),
     path('account/', include('account.urls')),
     path('market/', include('market.urls')),
-]
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

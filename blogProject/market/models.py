@@ -34,7 +34,7 @@ class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
 class Menu(models.Model):
     name=models.CharField(max_length=225)
-    photo=RichTextUploadingField(blank=True, null=True)
+    photo=models.ImageField(upload_to='images/')
     price=models.IntegerField()
     left=models.IntegerField() # 남은 수량
     description=models.CharField(max_length=1000)

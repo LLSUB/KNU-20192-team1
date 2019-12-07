@@ -121,3 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT=os.path.join(BASE_DIR,'media') # media 폴더 등록
+MEDIA_URL='/media/' # media 폴더로 갈 경로 url 설정

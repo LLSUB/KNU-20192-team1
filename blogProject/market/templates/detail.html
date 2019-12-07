@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>TAKE 가게 등록 페이지</title>
@@ -18,9 +19,9 @@
             <div class="good">
                     <div class="goodicon">
                         {% if message == "즐겨찾기 취소" %}
-                            <i class="xi-heart xi-2x"></i>
+                            <i class="xi-star-o xi-2x"></i>
                         {% else %}
-                            <i class="xi-heart-o xi-2x"></i>
+                            <i class="xi-star xi-2x"></i>
                             
                         {% endif %}
                     </div>
@@ -28,9 +29,13 @@
                         {{message}}
                     </a>
                     <div class="goodnum">
-                        <br>즐겨찾는 사람 {{market.like_count}}명
+                        즐겨찾는 사람 {{market.like_count}}명
                     </div>
             </div>
+            <br>
+
+            <a href="{%url 'delete' market.id %}">삭제</a>
+
 
             <!--menu 출력-->
             {% for menu in market.menu_set.all %}
@@ -45,7 +50,7 @@
                 <div class="comment comment1">
                         <td class="tableb1">메뉴 이름 :{{menu.name}}</td>
                         {% if menu.photo %}
-                        사진 : <img src="{{menu.photo.url}}">
+                        사진 : <img src="{{menu.photo.url}}" width="200" height="150">
                         {% endif %}
                         <td class="tableb1">가격 : {{menu.price}}</td>
                         <td class="tableb1">남은 수량 : {{menu.left}}</td>
@@ -54,12 +59,13 @@
             {% endfor %}
 
             <!--menu 등록-->
-            <form action="{% url 'menu_create' market.id %}">
+            <form method='post' action="{% url 'menu_create' market.id %}" enctype="multipart/form-data"> 
+                    {% csrf_token %}
                     메뉴 이름 : <input type="text" name="name"><br>
                     가격 : <input type="number" name="price"><br>
                     남은 수량 : <input type="number" name="left"><br>
                     설명 : <input type="text" name="description"><br>
-                    사진 : <input type="file" name="photo">
+                    사진 : <input type="file" name="photo" id="photo">
                     <input class="submit" type="submit" value="완료">
             </form>
 

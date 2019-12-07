@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
+from django.http import HttpResponse
 
 # Create your views here.
 def signup(request):
@@ -8,7 +9,7 @@ def signup(request):
         if request.POST["password1"] == request.POST["password2"]:
             try:
                 user=User.objects.get(username=request.POST['userID'])
-                return render(request, 'signup.html',{'error': '이미 사용하고 있는 이름입니다!'})
+                return HttpResponse('이미 사용하고 있는 이름입니다!')
             except User.DoesNotExist:
                 user = User.objects.create_user(
                     username=request.POST["userID"],password=request.POST["password1"]
@@ -29,7 +30,7 @@ def login(request):
             auth.login(request,user)
             return redirect('home')
         else:
-            return render(request, 'login.html',{'error':'username or password is incorrect'})
+            return HttpResponse('username or password is incorrect')
     else:
         return render(request, 'login.html')
 

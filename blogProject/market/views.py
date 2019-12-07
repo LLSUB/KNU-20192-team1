@@ -40,14 +40,13 @@ def create(request):
 
 def menu_create(request, market_id):
     menu=Menu() # menu를 저장하기 위해 빈 Menu 객체를 하나 생성
-    menu.name=request.GET['name'] # 댓글의 내용을 받아옴
-    menu.photo=request.GET['photo']
-    menu.price=request.GET['price']
-    menu.left=request.GET['left']
-    menu.description=request.GET['description']
+    #menu.name=request.POST['name'] # 댓글의 내용을 받아옴
+    menu.photo=request.FILES['photo']
+    menu.price=request.POST['price']
+    menu.left=request.POST['left']
+    menu.description=request.POST['description']
     menu.market=get_object_or_404(Market, pk=market_id) # 해당 댓글을 어떤 blog 객체와 연결시켜 줄 것인지 찾아온다
     menu.save() # comment를 DB에 저장
-
     return redirect('/market/'+str(market_id))
 
 def post_like(request, market_id):
@@ -61,3 +60,9 @@ def post_like(request, market_id):
         market.likes.add(user) # 좋아요를 추가한다.
 
     return redirect('/market/' + str(market_id)) # 좋아요 처리를 하고 detail 페이지로 간다.
+
+def delete(request, market_id):
+    market=get_object_or_404(Market, pk=market_id)
+    market.delete()
+
+    return redirect('market')
