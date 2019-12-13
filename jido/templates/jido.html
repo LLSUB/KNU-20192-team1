@@ -14,7 +14,7 @@
 
 
     <div id="map" style="width:500px;height:400px;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=daf89027da7006b79fdd53131914d57b&libraries=services,clusterer,drawing"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=da9665e40396b7097bf2ee117793210b&libraries=services,clusterer,drawing"></script>
     
     <script>
         var temp;
@@ -36,6 +36,8 @@
 
             // 주소-좌표 변환 객체를 생성합니다
             var geocoder = new kakao.maps.services.Geocoder();
+
+            
 
             // 주소로 좌표를 검색합니다
             geocoder.addressSearch(temp, function(result, status) {
@@ -117,6 +119,123 @@
 
             // 마커가 지도 위에 표시되도록 설정합니다
             marker.setMap(map);
+
+            var imageSrc = 'https://image.flaticon.com/icons/png/512/129/129501.png', // 마커이미지의 주소입니다    
+                imageSize = new kakao.maps.Size(35, 35), // 마커이미지의 크기입니다
+                imageOption = {offset: new kakao.maps.Point(25, 25)};
+
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                kaldi = new kakao.maps.LatLng(35.885628,128.610128);
+            var markkaldi = new kakao.maps.Marker({
+                map: map,
+                position: kaldi,
+                image: markerImage
+            })
+            var infokaldi = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">칼디커피</div>'
+            });
+            //infokaldi.open(map, markkaldi);
+            markkaldi.setMap(map);
+
+            var keanu = new kakao.maps.LatLng(35.885859, 128.610040);
+            var markkeanu = new kakao.maps.Marker({
+                map: map,
+                position: keanu,
+                image: markerImage
+            })
+            var infokeanu = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">KEANU</div>'
+            });
+            //infokeanu.open(map, markkeanu);
+            markkeanu.setMap(map);
+
+            var cofking = new kakao.maps.LatLng(35.885494, 128.609887);
+            var markcofking = new kakao.maps.Marker({
+                map: map,
+                position: cofking,
+                image: markerImage
+            })
+            var infocofking = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">커피왕</div>'
+            });
+            //infocofking.open(map, markcofking);
+            markcofking.setMap(map);
+
+            var havana = new kakao.maps.LatLng(35.885506, 128.610033);
+            var markhavana = new kakao.maps.Marker({
+                map: map,
+                position: havana,
+                image: markerImage
+            })
+            var infohavana = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">HAVANA EXPRESS</div>'
+            });
+            //infohavana.open(map, markhavana);
+            markhavana.setMap(map);
+
+            kakao.maps.event.addListener(markkaldi, 'mouseover', function() {
+            // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+                infokaldi.open(map, markkaldi);
+            });
+
+            // 마커에 마우스아웃 이벤트를 등록합니다
+            kakao.maps.event.addListener(markkaldi, 'mouseout', function() {
+                infokaldi.close();
+            });
+
+            kakao.maps.event.addListener(markkaldi, 'click', function() {
+                location.href = "www.naver.com";
+            });
+
+
+            kakao.maps.event.addListener(markhavana, 'mouseover', function() {
+                infohavana.open(map, markhavana);
+            });
+
+            kakao.maps.event.addListener(markhavana, 'mouseout', function() {
+                infohavana.close();
+            });
+
+            kakao.maps.event.addListener(markhavana, 'click', function() {
+                window.location.href = '127.0.0.1:8000/';
+            });
+
+            
+            kakao.maps.event.addListener(markcofking, 'mouseover', function() {
+                infocofking.open(map, markcofking);
+            });
+
+            kakao.maps.event.addListener(markcofking, 'mouseout', function() {
+                infocofking.close();
+            });
+
+            kakao.maps.event.addListener(markcofking, 'click', function() {
+                window.location.href = '127.0.0.1:8000/';
+            });
+
+
+            kakao.maps.event.addListener(markkeanu, 'mouseover', function() {
+                infokeanu.open(map, markkeanu);
+            });
+
+            kakao.maps.event.addListener(markkeanu, 'mouseout', function() {
+                infokeanu.close();
+            });
+
+            kakao.maps.event.addListener(markkeanu, 'click', function() {
+                window.location.href = '127.0.0.1:8000/';
+            });
+
+            // var dog = new kakao.maps.LatLng(36.0988367,128.0059136);
+            // var markdog = new kakao.maps.Marker({
+            //     map: map,
+            //     position: dog
+            // })
+            // var infodog = new kakao.maps.InfoWindow({
+            //     content: '<div style="width:150px;text-align:center;padding:6px 0;">카페모리</div>'
+            // });
+            // infodog.open(map, markdog);
+            // markdog.setMap(map);
         }
 
 
