@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Market, Menu
+from .models import Market, Menu, Like
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -13,8 +13,8 @@ def market(request):
 
 def detail(request, market_id):
     market_detail=get_object_or_404(Market, pk=market_id)
-
     user=request.user
+    liked=Like.objects.select_related()
     if market_detail.likes.filter(id=user.id):
         message="즐겨찾기 취소"
     else:

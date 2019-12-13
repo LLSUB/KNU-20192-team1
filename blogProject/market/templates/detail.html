@@ -16,6 +16,9 @@
             </ol>
 
             <!--즐겨찾기 기능-->
+
+            
+            
             <div class="good">
                     <div class="goodicon">
                         {% if message == "즐겨찾기 취소" %}
@@ -59,7 +62,7 @@
             {% endfor %}
 
             <!--menu 등록-->
-            <!-- <hr class="comment_line">
+            <hr class="comment_line">
             <form method='post' action="{% url 'menu_create' market.id %}" enctype="multipart/form-data"> 
                     {% csrf_token %}
                     메뉴 이름 : <input type="text" name="name"><br>
@@ -68,7 +71,7 @@
                     설명 : <input type="text" name="description"><br>
                     사진 : <input type="file" name="photo" id="photo">
                     <input class="submit" type="submit" value="완료">
-            </form> -->
+            </form> 
 
             <!--글 목록-->
             <a href="">주문</a>
