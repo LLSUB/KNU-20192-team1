@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>TAKE</h1>
+    {% if user.is_active %}
+    <h3>{{user.username}}</h3>
+    <a href="{% url 'logout'%}">로그아웃</a>
+    {% else %}
+    <a href="{% url 'login'%}">로그인</a>
+    <a href="{% url 'signup'%}">회원가입</a>
+    {% endif %}
+    <a href="{% url 'market'%}">가게 등록</a>
+    <a href="{% url 'market_search'%}">가게 keyword 검색</a>
+    <a href="{% url 'jido' %}">가게 지도 검색</a>
+    <br>
+    <br>
+    <hr>
+    <p>{{user}}님이 즐겨찾는 가게 :</p>
+    {% for a in like %}
+    {% if a.user == user %}
+        <a href="{% url 'detail' a.market.id %}">{{a.market.name}}</a>
+    {% endif %}
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'home'%}">TAKE</a>
+    <h1>로그인</h1>
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        아이디: <input placeholder="아이디" type="text" name="userID"><br>
+        비밀번호: <input placeholder="비밀번호" type="password" name="password"><br>
+        <input type="submit" value="로그인">
+    </form>
+</body>
+</html>
