@@ -19,6 +19,7 @@
     <a href="{% url 'market_search'%}">가게 keyword 검색</a>
     <a href="{% url 'jido' %}">가게 지도 검색</a>
     <br>
+    {% if user.is_active %}
     <br>
     <hr>
     <p>{{user}}님이 즐겨찾는 가게 :</p>
@@ -27,5 +28,6 @@
         <a href="{% url 'detail' a.market.id %}">{{a.market.name}}</a>
     {% endif %}
     {% endfor %}
+    {% endif %}
 </body>
 </html>
