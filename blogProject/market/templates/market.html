@@ -23,9 +23,9 @@
                     <tbody>
                     {% for market in markets.all %}  
                         <tr>
-                            <th scope="row">{{market.id}}</th>
+                            <td scope="row">{{market.id}}</td>
                             <td><a href="{%url 'detail' market.id%}">{{market.name}}</a></td>
-                            <th scope="row">{{market.address}}</th>
+                            <td scope="row">{{market.address}}</td>
                             <td>{{market.start_time}}</td>
                             <td>{{market.end_time}}</td>
                         </tr>
