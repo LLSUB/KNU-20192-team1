@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Market, Menu, Like
+from .models import Market, Menu, Like, Order
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -15,6 +15,8 @@ def detail(request, market_id):
     market_detail=get_object_or_404(Market, pk=market_id)
     user=request.user
     liked=Like.objects.select_related()
+    ordered=Order.objects.select_related()
+
     if market_detail.likes.filter(id=user.id):
         message="즐겨찾기 취소"
     else:
@@ -40,7 +42,7 @@ def create(request):
 
 def menu_create(request, market_id):
     menu=Menu() # menu를 저장하기 위해 빈 Menu 객체를 하나 생성
-    #menu.name=request.POST['name'] # 댓글의 내용을 받아옴
+    menu.name=request.POST['name'] # 댓글의 내용을 받아옴
     menu.photo=request.FILES['photo']
     menu.price=request.POST['price']
     menu.left=request.POST['left']
@@ -79,3 +81,15 @@ def market_search(request):
         'market_search': market,
         'm':m,
     })
+
+def menu_order(request, menu_id):
+    user = request.user # 로그인된 유저의 객체를 가져온다.
+    menu = get_object_or_404(Menu, pk=menu_id) # 좋아요 버튼을 누를 글을 가져온다.
+
+    # 이미 좋아요를 눌렀다면 좋아요를 취소, 아직 안눌렀으면 좋아요를 누른다.
+    if menu.orders.filter(id=user.id): # 로그인한 user가 현재 blog 객체에 좋아요를 눌렀다면
+        menu.orders.remove(user) # 해당 좋아요를 없앤다.
+    else: # 아직 좋아요를 누르지 않았다면
+        menu.orders.add(user) # 좋아요를 추가한다.
+
+    return redirect('/menu/' + str(menu_id)) # 좋아요 처리를 하고 detail 페이지로 간다.

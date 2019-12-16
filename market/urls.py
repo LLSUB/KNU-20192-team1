@@ -14,5 +14,6 @@ urlpatterns = [
     path('create', views.create, name="create"),
     path('delete/<int:market_id>',views.delete, name="delete"),
     path('menu/create/<int:market_id>', views.menu_create,name="menu_create"),
-    path('like/<int:market_id>',views.post_like, name="post_like"), # 즐겨찾기 위한 url
+    path('like/<int:market_id>',views.post_like, name="post_like"), 
+    path('menu/<int:market_id>',views.menu_order, name="menu_order"),# 즐겨찾기 위한 url
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

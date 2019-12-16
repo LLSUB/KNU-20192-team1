@@ -39,7 +39,9 @@
 
             <a href="{%url 'delete' market.id %}">삭제</a>
 
-
+            <Script>
+                var sum=0;
+            </Script>
             <!--menu 출력-->
             {% for menu in market.menu_set.all %}
                 <hr class="comment_line">
@@ -51,16 +53,32 @@
                     {% endif %}-->
                 </div>
                 <div class="comment comment1">
-                        <td class="tableb1">메뉴 이름 :{{menu.name}}</td>
-                        {% if menu.photo %}
-                        사진 : <img src="{{menu.photo.url}}" width="200" height="150">
-                        {% endif %}
-                        <td class="tableb1">가격 : {{menu.price}}</td>
-                        <td class="tableb1">남은 수량 : {{menu.left}}</td>
-                        <td class="tableb1">설명 : {{menu.description}}</td>
+                    <input type="checkbox" id="order_check" value="{{menu.price}}" onclick="cal(this)">
+                    <td class="tableb1">메뉴 이름 :{{menu.name}}</td>
+                    {% if menu.photo %}
+                    사진 : <img src="{{menu.photo.url}}" width="200" height="150">
+                    {% endif %}
+                    <td class="tableb1" id="price" value="{{menu.price}}">가격 : {{menu.price}}</td>
+                    <td class="tableb1">남은 수량 : {{menu.left}}</td>
+                    <td class="tableb1">설명 : {{menu.description}}</td>
                 </div>
             {% endfor %}
-
+            <p id="print">총 금액: </p>
+            <script>
+            function cal(obj)
+            {
+                if (obj.checked)
+                {
+                    sum+=parseInt(obj.value)
+                }
+                else
+                {
+                    sum-=parseInt(obj.value)
+                }  
+                var print=document.getElementById("print");
+                print.innerHTML="총 금액 : "+sum;
+            }
+            </script>
             <!--menu 등록-->
             <hr class="comment_line">
             <form method='post' action="{% url 'menu_create' market.id %}" enctype="multipart/form-data"> 
