@@ -18,7 +18,7 @@ class Market(models.Model):
         related_name='likes' # 1 : N  관계에서 market과 연결된 comment를 가져올 때 comment_set으로 가져왔는데, 
                             # related_name을 설정하면 market.like_set이 아니라 market.likes로 market과 연결된 like를 가져올 수 있다.
         )
-
+    
     # 이 객체를 가르키는 말을 title로 정하겠다.
     def __str__(self):
         return self.title
@@ -30,7 +30,9 @@ class Market(models.Model):
 class Like(models.Model):
     # Market의 through_fields와 순서가 같아야 한다.
     market = models.ForeignKey(Market, on_delete=models.CASCADE, null=True) # 특정 market이 삭제되면, 그 market의 즐겨찾기 정보 제거
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+
 class Menu(models.Model):
     name=models.CharField(max_length=225)
     photo=models.ImageField(upload_to='images/')
@@ -40,18 +42,15 @@ class Menu(models.Model):
     # Market 모델과 관계를 맺어준다. 1:N에서 N의 속성으로 들어간다.
     # on_delete는 관계를 맺고 있는 Market 객체가 삭제되면 관련된 Menu도 삭제시킨다.
     market=models.ForeignKey(Market, on_delete=models.CASCADE, null=True)
-
-    orders=models.ManyToManyField(
-        User,
-        through='Order',
-        through_fields=('menu', 'user'),
-        related_name='orders'
-    )
-        
-    def order_count(self):
-        return self.orders.count() 
+    
+    def __str__(self):
+        return self.body
 
 class Order(models.Model):
-    # Market의 through_fields와 순서가 같아야 한다.
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True) # 특정 market이 삭제되면, 그 market의 즐겨찾기 정보 제거
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    market = models.ForeignKey(Market, on_delete=models.CASCADE,null=True)
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True)
+    amount = models.IntegerField()
+    Totalprice = models.IntegerField()
+    time = models.DateTimeField(auto_now_add=True)
+

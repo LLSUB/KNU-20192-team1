@@ -39,9 +39,7 @@
 
             <a href="{%url 'delete' market.id %}">삭제</a>
 
-            <Script>
-                var sum=0;
-            </Script>
+
             <!--menu 출력-->
             {% for menu in market.menu_set.all %}
                 <hr class="comment_line">
@@ -52,33 +50,22 @@
                         <td class="tableb3">아이디: {{comment.writer}}</td> 
                     {% endif %}-->
                 </div>
+                <form method="post" action="{% url 'order_create' market.id menu.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="comment comment1">
-                    <input type="checkbox" id="order_check" value="{{menu.price}}" onclick="cal(this)">
                     <td class="tableb1">메뉴 이름 :{{menu.name}}</td>
                     {% if menu.photo %}
                     사진 : <img src="{{menu.photo.url}}" width="200" height="150">
                     {% endif %}
-                    <td class="tableb1" id="price" value="{{menu.price}}">가격 : {{menu.price}}</td>
+                    <td class="tableb1">가격 : {{menu.price}}</td>
                     <td class="tableb1">남은 수량 : {{menu.left}}</td>
                     <td class="tableb1">설명 : {{menu.description}}</td>
                 </div>
+                <input type='number' name='quantity' min='1', max={{menu.left}}>
+                <input type="submit" value="주문">
+                </form>
             {% endfor %}
-            <p id="print">총 금액: </p>
-            <script>
-            function cal(obj)
-            {
-                if (obj.checked)
-                {
-                    sum+=parseInt(obj.value)
-                }
-                else
-                {
-                    sum-=parseInt(obj.value)
-                }  
-                var print=document.getElementById("print");
-                print.innerHTML="총 금액 : "+sum;
-            }
-            </script>
+                
             <!--menu 등록-->
             <hr class="comment_line">
             <form method='post' action="{% url 'menu_create' market.id %}" enctype="multipart/form-data"> 
@@ -92,7 +79,6 @@
             </form> 
 
             <!--글 목록-->
-            <a href="">주문</a>
             <a href="{% url 'market' %}">글 목록</a>
     </body>
 </html>

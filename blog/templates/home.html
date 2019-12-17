@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>TAKE</h1>
+    <a href="{% url 'home' %}"><h1>TAKE</h1></a>
     {% if user.is_active %}
     <h3>{{user.username}}</h3>
     <a href="{% url 'logout'%}">로그아웃</a>
@@ -16,10 +16,10 @@
     <a href="{% url 'signup'%}">회원가입</a>
     {% endif %}
     <a href="{% url 'market'%}">가게 등록</a>
-    <a href="{% url 'market_search'%}">가게 keyword 검색</a>
-    <a href="{% url 'jido' %}">가게 지도 검색</a>
-    <br>
+    <a href="{% url 'market_search'%}">가게 검색</a>
+    <a href="{% url 'jido' %}">주변 가게 알아보기</a>
     {% if user.is_active %}
+    <a href="{% url 'order_check' %}">주문 내역 확인</a>
     <br>
     <hr>
     <p>{{user}}님이 즐겨찾는 가게 :</p>
