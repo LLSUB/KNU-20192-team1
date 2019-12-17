@@ -8,26 +8,56 @@
 </head>
 <body>
     <a href="{% url 'home' %}"><h1>TAKE</h1></a>
+    <!--로그인 했을 때-->
     {% if user.is_active %}
-    <h3>{{user.username}}</h3>
-    <a href="{% url 'logout'%}">로그아웃</a>
-    {% else %}
-    <a href="{% url 'login'%}">로그인</a>
-    <a href="{% url 'signup'%}">회원가입</a>
+        <h3>{{user.username}}님</h3>
+        {% if user.username != 'admin' %}
+            {% if user.profile.market_id != -1 %}     
+                <h3>[[{{market.name}} 주인]]</h3>
+            {% else %}
+                <h3>[[일반회원]]</h3>
+            {% endif %}
+        {% else %}
+            <h3>[[관리자]]</h3>
+        {% endif %}
     {% endif %}
-    <a href="{% url 'market'%}">가게 등록</a>
-    <a href="{% url 'market_search'%}">가게 검색</a>
-    <a href="{% url 'jido' %}">주변 가게 알아보기</a>
-    {% if user.is_active %}
-    <a href="{% url 'order_check' %}">주문 내역 확인</a>
-    <br>
+
     <hr>
-    <p>{{user}}님이 즐겨찾는 가게 :</p>
-    {% for a in like %}
-    {% if a.user == user %}
-        <a href="{% url 'detail' a.market.id %}">{{a.market.name}}</a>
+
+    
+    {% if user.is_active %} <!--로그인 했을 때-->
+        <a href="{% url 'logout'%}">로그아웃</a>
+        {% if user.username != "admin" %} 
+            {% if user.profile.market_id != -1 %} <!--가게주인-->
+                <a href="{% url 'admin_order_check' user.profile.market_id %}">{{market.name}} 주문 조회</a>
+            {% else %} <!--일반 사용자-->
+                <a href="{% url 'market_search'%}">가게 검색</a>
+                <a href="{% url 'jido' %}">지도</a>
+                <a href="{% url 'order_check' %}">주문 내역 확인</a>
+                <a href="{% url 'new'%}">가게 등록</a>
+            {% endif %}
+        {% else %} <!--관리자-->
+            <a href="{% url 'market' %}">가게 조회</a>
+        {% endif %}
+
+    {% else %} <!--로그인 안했을 때-->
+        <a href="{% url 'login'%}">로그인</a>
+        <a href="{% url 'signup'%}">회원가입</a>
     {% endif %}
-    {% endfor %}
+
+
+    <br><hr>
+    {% if user.is_active %}
+        {% if user.username != "admin" %}
+            {% if user.profile.market_id == -1 %}
+                <p>{{user}}님이 즐겨찾는 가게 :</p>
+                    {% for a in like %}
+                        {% if a.user == user %}
+                            <a href="{% url 'detail' a.market.id %}">{{a.market.name}}</a>
+                        {% endif %}
+                    {% endfor %}
+            {% endif %}
+        {% endif %}
     {% endif %}
 </body>
 </html>

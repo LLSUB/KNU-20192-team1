@@ -7,6 +7,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.TextField(max_length=225, blank=True)
     phonenumber = models.CharField(max_length=200, blank=True)
+    market_id = models.IntegerField(default=-1)
     
     
 @receiver(post_save, sender=User)

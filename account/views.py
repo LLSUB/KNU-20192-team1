@@ -15,7 +15,7 @@ def signup(request):
                     username=request.POST["userID"],password=request.POST["password1"]
                 )
                 user.profile.name=request.POST['name']
-                user.profile.phone=request.POST['phone']
+                user.profile.phonenumber=request.POST['phone']
                 user.save()
                 auth.login(request,user)
                 return redirect('home')

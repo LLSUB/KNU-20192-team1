@@ -6,7 +6,7 @@
     </head>
     <body>
             <a href="{% url 'home' %}"><p>TAKE</p></a>
-            <h2>주문 내역</h2>
+            <h2>[가게] {{markets.name}} 주문 내역</h2>
             <table border="1">
             <tr>
 
@@ -16,11 +16,11 @@
                 <th>총 가격</th>
                 <th>주문 시간</th>
                 <th>주문 번호</th>
-                <th>삭제</th>
+                <th>주문 확인</th>
             </tr>
 
             {% for order in orders.all %} 
-            {% if order.user == user %}
+            {% if order.market == markets %}
             <tr>
                 <td>{{order.market.name}}</td>
                 <td>{{order.menu.name}}</td>
@@ -29,9 +29,9 @@
                 <td>{{order.time}}</td>
                 <td>{{order.id}}</td>
                 <td>
-                <form method='post'  action="{% url 'order_delete' order.id %}" enctype="multipart/form-data"> 
+                <form method='post' action="{% url 'admin_order_delete' markets.id order.id %}" enctype="multipart/form-data"> 
                     {% csrf_token %}
-                    <input class="submit" type="submit" value="삭제">
+                    <button value="{{order.id}}" onclick="alert(this.value+' 번 픽업 되었습니다.');">확인</button>
                 </form>
                 </td>
             </tr>

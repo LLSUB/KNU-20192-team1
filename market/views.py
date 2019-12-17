@@ -27,6 +27,10 @@ def order_create(request, market_id, menu_id):
     user= request.user
     amount = request.POST['quantity']
 
+    menu=get_object_or_404(Menu, pk=menu_id)
+    menu.left-=int(amount)
+    menu.save()
+
     order= Order()
     order.user = user
     order.market=get_object_or_404(Market, pk=market_id)
@@ -38,19 +42,35 @@ def order_create(request, market_id, menu_id):
     return redirect('order_check')
 
 def order_check(request):
-    orders = Order.objects.select_related()
+    orders = Order.objects.select_related().order_by('-id')
     return render(request, 'order_check.html', {'orders':orders})
+
+def admin_order_check(request, market_id):
+    markets=get_object_or_404(Market, pk=market_id)
+    orders = Order.objects.select_related().order_by('-id')
+    return render(request, 'admin_order_check.html', {'markets': markets, 'orders': orders})
 
 def order_delete(request, order_id):
     order=get_object_or_404(Order, pk=order_id)
+    menu=get_object_or_404(Menu, pk=order.menu.id)
+    menu.left+=int(order.amount)
+    menu.save()
     order.delete()
     return redirect('order_check') 
 
+def admin_order_delete(request, market_id, order_id):
+    markets=get_object_or_404(Market, pk=market_id)
+    order=get_object_or_404(Order, pk=order_id)
+    order.delete()
+    orders=Order.objects.select_related().order_by('-id')
+    return render(request, 'admin_order_check.html', {'markets':markets, 'orders':orders})
 
 def new(request):
     return render(request, 'new.html')
 
 def create(request):
+    user = request.user
+
     market=Market()
     market.name=request.GET['name']
     market.address=request.GET['address']
@@ -60,6 +80,8 @@ def create(request):
     #market.user=get_object_or_404(User, pk=request.GET['user_id'])
     market.save()
 
+    user.profile.market_id = market.id
+    user.profile.save()
     return redirect('/market/'+str(market.id))
 
 
@@ -87,20 +109,23 @@ def post_like(request, market_id):
     return redirect('/market/' + str(market_id)) # 좋아요 처리를 하고 detail 페이지로 간다.
 
 def delete(request, market_id):
+    user=request.user
     market=get_object_or_404(Market, pk=market_id)
+    if(user.profile.market_id == market.id):
+        user.profile.market_id = -1
+        user.profile.save()
     market.delete()
-
     return redirect('market')
 
 def market_search(request):
-    market=Market.objects.all()
-
+    market_list=Market.objects.all().order_by('-id')
     m=request.GET.get('context','init')
 
     if m:
-        market=market.filter(name__icontains=m)
+        market=market_list.filter(name__icontains=m)
     
     return render(request, 'market_search.html', {
+        'markets':market_list,
         'market_search': market,
         'm':m,
     })

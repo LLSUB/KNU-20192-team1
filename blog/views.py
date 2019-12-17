@@ -4,5 +4,13 @@ from market.models import Market, Like
 # Create your views here.
 def home(request):
     user=request.user
-    liked=Like.objects.select_related()
-    return render(request, 'home.html', {'user':user, 'like':liked})
+
+    if user.is_active:
+        liked=Like.objects.select_related()
+        if user.profile.market_id == -1:
+            return render(request, 'home.html', {'user':user, 'like':liked})
+        else:
+            market=get_object_or_404(Market, pk=user.profile.market_id)
+            return render(request, 'home.html', {'user':user, 'market': market, 'like':liked})
+    else:
+        return render(request, 'home.html', {'user':user})
